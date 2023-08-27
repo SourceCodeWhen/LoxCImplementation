@@ -44,21 +44,6 @@ static void errorAtCurrent(const char* message) {
     errorAt(&parser.current, message);
 }
 
-bool compile(const char* source, Chunk* chunk) {
-    initScanner(source);
-    compilingChunk = chunk;
-
-    parser.hadError = false;
-    parser.panicMode = false;
-
-    advance();
-    expression();
-    consume(TOKEN_EOF, "Expect end of expression.");
-    endCompiler();
-    return !parser.hadError;
-}
-
-
 static void advance() {
     parser.previous = parser.current;
 
@@ -110,11 +95,31 @@ static void endCompiler() {
     emitReturn();
 }
 
+static void expression() {
+
+}
+
+static void grouping() {
+    expression();
+    consume(TOKEN_RIGHT_PAREN, "Expect ')' after expression.");
+}
+
+
 static void number() {
     double value = strtod(parser.previous.start, NULL);
     emitConstant(value);
 }
 
-static void expression() {
+bool compile(const char* source, Chunk* chunk) {
+    initScanner(source);
+    compilingChunk = chunk;
 
+    parser.hadError = false;
+    parser.panicMode = false;
+
+    advance();
+    expression();
+    consume(TOKEN_EOF, "Expect end of expression.");
+    endCompiler();
+    return !parser.hadError;
 }
