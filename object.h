@@ -25,7 +25,8 @@ struct ObjString {
     char* chars;
 };
 
-ObjString* copyString(const char* chars, int length);
+ObjString* takeString(char* chars, int length);
+struct ObjString* copyString(const char* chars, int length);
 void printObject(Value value);
 
 static inline bool isObjType(Value value, ObjType type) {

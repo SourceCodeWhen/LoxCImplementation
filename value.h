@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-typedef struct Obj obj;
+typedef struct Obj Obj;
 
 typedef enum {
     VAL_BOOL,
@@ -29,12 +29,12 @@ typedef struct {
 
 #define AS_BOOL(value)      ((value).as.boolean)
 #define AS_NUMBER(value)    ((value).as.number)
-#define AS_OBJ(value)       ((value).as.object)
+#define AS_OBJ(value)       ((value).as.obj)
 
 #define BOOL_VAL(value)     ((Value){VAL_BOOL, {.boolean = value}})
 #define NIL_VAL             ((Value){VAL_NIL, {.number = 0}})
 #define NUMBER_VAL(value)   ((Value){VAL_NUMBER, {.number = value}})
-#define OBJ_VAL(value)      ((Value){VAL_OBJ, {.obj = (Obj*)object}}
+#define OBJ_VAL(object)      ((Value){VAL_OBJ, {.obj = (Obj*)object}}
 
 typedef struct {
     int capacity;
