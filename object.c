@@ -15,18 +15,18 @@ static Obj* allocateObject(size_t size, ObjType type) {
     return object;
 }
 
-static ObjString* allocateString(char* chars, int length) {
-    ObjString* string = ALLOCATE_OBJ(ObjString, OBJ_STRING);
+static struct ObjString* allocateString(char* chars, int length) {
+    struct ObjString* string = ALLOCATE_OBJ(struct ObjString, OBJ_STRING);
     string->length = length;
     string->chars = chars;
     return string;
 }
 
-ObjString* takeString(char* chars, int length) {
+struct ObjString* takeString(char* chars, int length) {
     return allocateString(chars, length);
 }
 
-ObjString* copyString(const char* chars, int length) {
+struct ObjString* copyString(const char* chars, int length) {
     char* heapChars = ALLOCATE(char, length + 1);
     memcpy(heapChars, chars, length);
     heapChars[length] = '\0';

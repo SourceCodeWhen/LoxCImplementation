@@ -8,8 +8,8 @@
 
 #define IS_STRING(value)        isObjType(value, OBJ_STRING)
 
-#define AS_STRING(value)        ((ObjString*)AS_OBJ(value))
-#define AS_CSTRING(value)       (((ObjString*)AS_OBJ(value))->chars)
+#define AS_STRING(value)        ((struct ObjString*)AS_OBJ(value))
+#define AS_CSTRING(value)       (((struct ObjString*)AS_OBJ(value))->chars)
 
 typedef enum {
     OBJ_STRING,
@@ -25,7 +25,7 @@ struct ObjString {
     char* chars;
 };
 
-ObjString* takeString(char* chars, int length);
+struct ObjString* takeString(char* chars, int length);
 struct ObjString* copyString(const char* chars, int length);
 void printObject(Value value);
 
