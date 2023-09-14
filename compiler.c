@@ -44,6 +44,8 @@ Parser parser;
 Chunk* compilingChunk;
 
 static void expression();
+static void statement();
+static void declaration();
 static void parsePrecedence(Precedence precedence);
 static ParseRule* getRule(TokenType type);
 
@@ -185,6 +187,16 @@ static void expression() {
     parsePrecedence(PREC_ASSIGNMENT);
 }
 
+static void declaration() {
+    statement();
+}
+
+static void statement() {
+    if (match(TOKEN_PRINT)) {
+        printStatement();
+    }
+}
+
 static void grouping() {
     expression();
     consume(TOKEN_RIGHT_PAREN, "Expect ')' after expression.");
@@ -270,8 +282,9 @@ bool compile(const char* source, Chunk* chunk) {
     parser.panicMode = false;
 
     advance();
-    expression();
-    consume(TOKEN_EOF, "Expect end of expression.");
+    while (!match(TOKEN_EOF)) {
+        declaration();
+    }
     endCompiler();
     return !parser.hadError;
 }
